@@ -8,6 +8,8 @@
 struct HitRecord;
 class material {
     public:
+        // scatter -> 分散
+        // attenuation -> 衰减
         virtual bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const = 0;
 };
 
@@ -16,9 +18,8 @@ class lambertian : public material {
     public:
         lambertian(const Color& a) : albedo(a) {}
 
-        virtual bool scatter(
-            const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered
-        ) const override {
+        virtual bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const override 
+        {
             auto scatter_direction = rec.normal + random_unit_vector();
 
             // Catch degenerate scatter direction
@@ -30,7 +31,8 @@ class lambertian : public material {
             return true;
         }
 
-    public:
+    private:
+        // 漫反射系数
         Color albedo;
 };
 
@@ -48,7 +50,7 @@ class metal : public material {
             return (dot(scattered.GetDirection(), rec.normal) > 0);
         }
 
-    public:
+    private:
         Color albedo;
         double fuzz;
 };

@@ -53,15 +53,15 @@ class PPM
             b = sqrt(scale * b);
 
             // Write the translated [0,255] value of each Color component.
-            m_ofs << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
-                << static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
-                << static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
+            m_ofs   << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
+                    << static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
+                    << static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
         }
     
     public:
         const int GetWidth()  { return m_width; }
         const int GetHeight() { return m_height; }
-        const int GetRatio() { return m_ratio; }
+        const int GetRatio()  { return m_ratio; }
 
     private:
         std::ofstream m_ofs;

@@ -17,7 +17,7 @@ class Context
             float dist_to_focus = 10.0;
             float aperture = 0.1;
 
-            m_camera = new Camera(lookfrom, lookat, vup, 10, p.ratio, aperture, dist_to_focus);
+            m_camera = new Camera(lookfrom, lookat, vup, 40, p.ratio, aperture, dist_to_focus);
             
             // setup render
             m_render = new Renderer(p.ratio, p.width, p.height);
