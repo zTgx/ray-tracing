@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include "utils.h"
 
 struct hit_record;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <fstream>
 #include "vec3.h"
 
@@ -13,9 +12,13 @@
 class PPM
 {
     public:
-        PPM() noexcept { ofs.open ("ppm.ppm"); }
+        PPM(const int width, const int height) noexcept 
+        { 
+            ofs.open ("ppm.ppm"); 
+            DrawHeader(width, height);
+        }
 
-    public:
+    private:
         /** Header Format:
          * P3
          * width height
@@ -28,6 +31,7 @@ class PPM
             ofs << "\n";
         }
 
+    public:
         void DrawBody(color pixel_color, int samples_per_pixel) {
             auto r = pixel_color.x();
             auto g = pixel_color.y();
