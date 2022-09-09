@@ -48,6 +48,8 @@ class Renderer
                     m_ppm->DrawBody(pixel_color, samples_per_pixel);
                 }
             }
+
+            std::cerr << "\nDone.\n";
         }
 
     private:

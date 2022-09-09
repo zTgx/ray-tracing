@@ -3,11 +3,12 @@
 #include "color.h"
 #include "camera.h"
 #include "render.h"
+#include "props.h"
 
 class Context
 {
     public:
-        Context(const float ratio, const int width, const int height) noexcept 
+        Context(const Props& p) noexcept 
         {
             // setup camera
             point3 lookfrom(13,2,3);
@@ -16,10 +17,10 @@ class Context
             auto dist_to_focus = 10.0;
             auto aperture = 0.1;
 
-            m_camera = new Camera(lookfrom, lookat, vup, 20, ratio, aperture, dist_to_focus);
+            m_camera = new Camera(lookfrom, lookat, vup, 20, p.ratio, aperture, dist_to_focus);
             
             // setup render
-            m_render = new Renderer(ratio, width, height);
+            m_render = new Renderer(p.ratio, p.width, p.height);
         }
     
         ~Context() 
