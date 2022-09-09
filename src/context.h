@@ -37,6 +37,10 @@ class Context
 
     public:
         Camera* GetCamera() { return m_camera; }
+        void UpdateCamera(Point from, Point at, vec3 viewUp, const float vfov, const float ratio, const float aperture, const float distToFocus)
+        {
+            m_camera->Update(from, at, viewUp, vfov, ratio, aperture, distToFocus);
+        }
 
     private:
         Camera* m_camera;

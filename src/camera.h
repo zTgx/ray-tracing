@@ -2,10 +2,22 @@
 
 #include "utils.h"
 
+struct CameraProps
+{
+    Point lookfrom;
+    Point lookat;
+    vec3   vup;
+    double vfov; // vertical field-of-view in degrees
+    double aspect_ratio;
+    double aperture;
+    double focus_dist;
+    double _time0 = 0;
+    double _time1 = 0;  
+};
+
 class Camera {
     public:
         Camera() : Camera(Point(0,0,-1), Point(0,0,0), vec3(0,1,0), 40, 1, 0, 10) {}
-
         Camera(
             Point lookfrom,
             Point lookat,
@@ -44,6 +56,25 @@ class Camera {
                 lower_left_corner + s*horizontal + t*vertical - origin - offset,
                 random_double(time0, time1)
             );
+        }
+
+        void Update(Point from, Point at, vec3 vup, const float vfov, const float ratio, const float aperture, const float distToFocus)
+        {
+            auto theta = degrees_to_radians(vfov);
+            auto h = tan(theta/2);
+            auto viewport_height = 2.0 * h;
+            auto viewport_width = ratio * viewport_height;
+
+            w = unit_vector(from - at);
+            u = unit_vector(cross(vup, w));
+            v = cross(w, u);
+
+            origin = from;
+            horizontal = distToFocus * viewport_width * u;
+            vertical = distToFocus * viewport_height * v;
+            lower_left_corner = origin - horizontal/2 - vertical/2 - distToFocus * w;
+
+            lens_radius = aperture / 2;
         }
 
     private:
