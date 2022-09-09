@@ -5,16 +5,17 @@
 class Ray {
     public:
         Ray() {}
-        Ray(const Point& origin, const vec3& direction): orig(origin), dir(direction){}
+        Ray(const Point& origin, const Point& direction): m_origin(origin), m_direction(direction){}
 
     public:
-        Point  origin()        const { return orig; }
-        Point  at(double t)    const { return orig + t*dir; }
-        vec3   direction()     const { return dir; }
-        // double  time()          const { return tm; }
+        Point GetOrigin()    const { return m_origin; }
+        Point GetDirection() const { return m_direction; }
 
-    public:
-        Point orig;
-        vec3   dir;
-        // double tm;
+        // The direction is the current position + the direction vector we just defined.
+        // looking at the target direction
+        Point At(float t)    const { return m_origin + t * m_direction; }
+
+    private:
+        Point m_origin;
+        Point m_direction;
 };

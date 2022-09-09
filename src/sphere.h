@@ -7,7 +7,7 @@ class sphere : public Hitable {
     public:
         sphere() {}
 
-        sphere(Point cen, double r, shared_ptr<material> m)
+        sphere(Point cen, double r, std::shared_ptr<material> m)
             : center(cen), radius(r), mat_ptr(m) {};
 
         virtual bool hit(
@@ -16,14 +16,14 @@ class sphere : public Hitable {
     public:
         Point center;
         double radius;
-        shared_ptr<material> mat_ptr;
+        std::shared_ptr<material> mat_ptr;
 };
 
 
 bool sphere::hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const {
-    vec3 oc = r.origin() - center;
-    auto a = r.direction().length_squared();
-    auto half_b = dot(oc, r.direction());
+    vec3 oc = r.GetOrigin() - center;
+    auto a = r.GetDirection().length_squared();
+    auto half_b = dot(oc, r.GetDirection());
     auto c = oc.length_squared() - radius*radius;
 
     auto discriminant = half_b*half_b - a*c;
@@ -39,7 +39,7 @@ bool sphere::hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const
     }
 
     rec.t = root;
-    rec.p = r.at(rec.t);
+    rec.p = r.At(rec.t);
     vec3 outward_normal = (rec.p - center) / radius;
     rec.set_face_normal(r, outward_normal);
     rec.mat_ptr = mat_ptr;
