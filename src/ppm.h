@@ -12,9 +12,13 @@
 class PPM
 {
     public:
-        PPM(const int width, const int height) noexcept 
+        PPM(const float ratio, const int width, const int height) noexcept 
         { 
-            ofs.open ("ppm.ppm"); 
+            m_width     = width;
+            m_height    = height;  
+            m_ratio     = ratio;
+
+            m_ofs.open ("ppm.ppm"); 
             DrawHeader(width, height);
         }
 
@@ -25,10 +29,10 @@ class PPM
          * 255
          */
         void DrawHeader(const int width, const int height) { 
-            ofs << "P3\n"; 
-            ofs << width << " " << height << "\n"; 
-            ofs << "255";
-            ofs << "\n";
+            m_ofs << "P3\n"; 
+            m_ofs << width << " " << height << "\n"; 
+            m_ofs << "255";
+            m_ofs << "\n";
         }
 
     public:
@@ -49,11 +53,20 @@ class PPM
             b = sqrt(scale * b);
 
             // Write the translated [0,255] value of each color component.
-            ofs << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
+            m_ofs << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
                 << static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
                 << static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
         }
     
+    public:
+        const int GetWidth()  { return m_width; }
+        const int GetHeight() { return m_height; }
+        const int GetRatio() { return m_ratio; }
+
     private:
-        std::ofstream ofs;
+        std::ofstream m_ofs;
+
+        int m_width;
+        int m_height;
+        float m_ratio;
 };

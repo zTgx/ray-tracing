@@ -3,6 +3,8 @@
 #include "context.h"
 #include "camera.h"
 #include "world.h"
+#include "ppm.h"
+
 #include <iostream>
 
 static const int samples_per_pixel = 10;
@@ -11,12 +13,24 @@ static const int max_depth = 50;
 class Renderer
 {
     public:
-        static void Draw(Context* context, World* world)
+        Renderer(const float ratio, const int width, const int height)
         {
-            const int image_height = context->GetHeight();
-            const int image_width  = context->GetWidth();
+            // setup ppm
+            m_ppm = new PPM(ratio, width, height);
+        }
 
-            Camera* camera = context->GetCamera();
+        ~Renderer()
+        {
+            delete m_ppm;
+            m_ppm = nullptr;
+        }
+
+    public:
+        // void Draw(Context* context, World* world)
+        void Draw(World* world, Camera* camera)
+        {
+            const int image_height = m_ppm->GetHeight();
+            const int image_width  = m_ppm->GetWidth();
 
             for (int j = image_height-1; j >= 0; --j) {
                 std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
@@ -31,8 +45,11 @@ class Renderer
                         pixel_color += ray_color(r, world, max_depth);
                     }
 
-                    context->Draw(pixel_color, samples_per_pixel);
+                    m_ppm->DrawBody(pixel_color, samples_per_pixel);
                 }
             }
         }
+
+    private:
+        PPM* m_ppm;
 };

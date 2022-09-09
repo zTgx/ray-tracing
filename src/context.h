@@ -1,21 +1,14 @@
 #pragma once
 
-#include "ppm.h"
 #include "color.h"
 #include "camera.h"
+#include "render.h"
 
 class Context
 {
     public:
         Context(const float ratio, const int width, const int height) noexcept 
         {
-            m_ratio  = ratio;
-            m_width  = width;
-            m_height = height;
-
-            // setup ppm
-            m_ppm = new PPM(width, height);
-
             // setup camera
             point3 lookfrom(13,2,3);
             point3 lookat(0,0,0);
@@ -23,22 +16,28 @@ class Context
             auto dist_to_focus = 10.0;
             auto aperture = 0.1;
 
-            m_camera = new Camera(lookfrom, lookat, vup, 20, m_ratio, aperture, dist_to_focus);
-
+            m_camera = new Camera(lookfrom, lookat, vup, 20, ratio, aperture, dist_to_focus);
+            
+            // setup render
+            m_render = new Renderer(ratio, width, height);
         }
     
-    public:
-        void Draw(color pixel_color, int samples_per_pixel) { m_ppm->DrawBody(pixel_color, samples_per_pixel);}
-    
-    public:
-        const int GetHeight() const { return m_height; }
-        const int GetWidth()  const { return m_width; }
-        Camera* GetCamera() { return m_camera; }
-    private:
-        float m_ratio;
-        int m_width;
-        int m_height;
+        ~Context() 
+        {
+            delete m_camera;
+            m_camera = nullptr;
 
-        PPM* m_ppm;
+            delete m_render;
+            m_render = nullptr;
+        }
+
+    public:
+        void Render(World* world) { m_render->Draw(world, m_camera); }
+
+    public:
+        Camera* GetCamera() { return m_camera; }
+
+    private:
         Camera* m_camera;
+        Renderer* m_render;
 };
