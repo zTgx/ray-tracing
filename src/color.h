@@ -4,18 +4,20 @@
 #include "hitable.h"
 #include "material.h"
 
-Color ray_color(const Ray& r, const Hitable* world, int depth) {
+Color RayColor(const Ray& r, const Hitable* obj, int depth) {
     HitRecord rec;
 
     // If we've exceeded the Ray bounce limit, no more light is gathered.
     if (depth <= 0)
         return Color(0,0,0);
 
-    if (world->hit(r, 0.001, infinity, rec)) {
+    if (obj->hit(r, 0.001, infinity, rec)) {
         Ray scattered;
         Color attenuation;
+
         if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-            return attenuation * ray_color(scattered, world, depth-1);
+            return attenuation * RayColor(scattered, obj, depth-1);
+            
         return Color(0,0,0);
     }
 

@@ -13,11 +13,11 @@ class Context
             // setup camera
             Point lookfrom(13,2,3);
             Point lookat(0,0,0);
-            vec3 vup(0,1,0);
-            auto dist_to_focus = 10.0;
-            auto aperture = 0.1;
+            Point vup(0,1,0);
+            float dist_to_focus = 10.0;
+            float aperture = 0.1;
 
-            m_camera = new Camera(lookfrom, lookat, vup, 20, p.ratio, aperture, dist_to_focus);
+            m_camera = new Camera(lookfrom, lookat, vup, 10, p.ratio, aperture, dist_to_focus);
             
             // setup render
             m_render = new Renderer(p.ratio, p.width, p.height);

@@ -1,7 +1,7 @@
 #pragma once
 
 constexpr const float RATIO(){ return 16.0 / 9.0; } 
-constexpr const int WIDTH()  { return 1200; }
+constexpr const int WIDTH()  { return 100; }
 constexpr const int HEIGHT() { return static_cast<int>(WIDTH() / RATIO()); }
 
 struct Props

@@ -42,7 +42,7 @@ class Renderer
                         auto v = (j + random_double()) / (image_height-1);
                         
                         Ray r = camera->GetRay(u, v);
-                        pixel_color += ray_color(r, world, max_depth);
+                        pixel_color += RayColor(r, world, max_depth);
                     }
 
                     m_ppm->DrawBody(pixel_color, samples_per_pixel);

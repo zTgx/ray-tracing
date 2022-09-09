@@ -44,18 +44,12 @@ class Camera {
             lower_left_corner = origin - horizontal/2 - vertical/2 - focus_dist*w;
 
             lens_radius = aperture / 2;
-            time0 = _time0;
-            time1 = _time1;
         }
 
         Ray GetRay(double s, double t) const {
             vec3 rd = lens_radius * random_in_unit_disk();
             vec3 offset = u * rd.x() + v * rd.y();
-            return Ray(
-                origin + offset,
-                lower_left_corner + s*horizontal + t*vertical - origin - offset,
-                random_double(time0, time1)
-            );
+            return Ray(origin + offset, lower_left_corner + s*horizontal + t*vertical - origin - offset);
         }
 
         void Update(Point from, Point at, vec3 vup, const float vfov, const float ratio, const float aperture, const float distToFocus)
@@ -84,5 +78,4 @@ class Camera {
         vec3 vertical;
         vec3 u, v, w;
         double lens_radius;
-        double time0, time1;  // shutter open/close times
 };
