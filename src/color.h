@@ -1,11 +1,11 @@
 #pragma once
 
 #include "ray.h"
-#include "hittable.h"
+#include "hitable.h"
 #include "material.h"
 
-Color ray_color(const Ray& r, const hittable* world, int depth) {
-    hit_record rec;
+Color ray_color(const Ray& r, const Hitable* world, int depth) {
+    HitRecord rec;
 
     // If we've exceeded the Ray bounce limit, no more light is gathered.
     if (depth <= 0)

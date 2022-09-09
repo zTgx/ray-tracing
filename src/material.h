@@ -3,10 +3,10 @@
 
 #include "utils.h"
 
-struct hit_record;
+struct HitRecord;
 class material {
     public:
-        virtual bool scatter(const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered) const = 0;
+        virtual bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const = 0;
 };
 
 // Lambertian反射(也叫理想散射) 
@@ -15,7 +15,7 @@ class lambertian : public material {
         lambertian(const Color& a) : albedo(a) {}
 
         virtual bool scatter(
-            const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
+            const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered
         ) const override {
             auto scatter_direction = rec.normal + random_unit_vector();
 
@@ -38,7 +38,7 @@ class metal : public material {
         metal(const Color& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
 
         virtual bool scatter(
-            const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
+            const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered
         ) const override {
             vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
             scattered = Ray(rec.p, reflected + fuzz*random_in_unit_sphere());
@@ -57,7 +57,7 @@ class dielectric : public material {
         dielectric(double index_of_refraction) : ir(index_of_refraction) {}
 
         virtual bool scatter(
-            const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
+            const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered
         ) const override {
             attenuation = Color(1.0, 1.0, 1.0);
             double refraction_ratio = rec.front_face ? (1.0/ir) : ir;

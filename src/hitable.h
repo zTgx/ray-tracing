@@ -3,7 +3,7 @@
 #include "utils.h"
 
 class material;
-struct hit_record {
+struct HitRecord {
     Point p;
     vec3 normal;
     shared_ptr<material> mat_ptr;
@@ -16,7 +16,7 @@ struct hit_record {
     }
 };
 
-class hittable {
+class Hitable {
     public:
-        virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+        virtual bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const = 0;
 };

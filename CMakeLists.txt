@@ -7,9 +7,6 @@ endif ()
 set(PROJECTNAME rayc)
 project(${PROJECTNAME})
 
-message(STATUS ${PROJECT_SOURCE_DIR})
-message(STATUS ${CMAKE_CURRENT_SOURCE_DIR}/libs/)
-
 set(CMAKE_CXX_STANDARD 17) # this does nothing for MSVC, use target_compile_options below
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
@@ -17,11 +14,6 @@ set(CMAKE_CXX_FLAGSD "${CMAKE_CXX_FLAGS} -O0 -Wall -g -ggdb -fno-rtti")
 
 aux_source_directory(./src DIR_MAIN_SRCS)
 add_executable(${PROJECTNAME} ${DIR_MAIN_SRCS})
-
-# include header path
-# target_include_directories(${PROJECTNAME} PUBLIC
-#   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../../includes/>
-# )
 
 # Link libs
 target_link_libraries(${PROJECTNAME} -lpthread)

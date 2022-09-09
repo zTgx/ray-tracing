@@ -1,9 +1,9 @@
 #pragma once
 
 #include "utils.h"
-#include "hittable.h"
+#include "hitable.h"
 
-class sphere : public hittable {
+class sphere : public Hitable {
     public:
         sphere() {}
 
@@ -11,7 +11,7 @@ class sphere : public hittable {
             : center(cen), radius(r), mat_ptr(m) {};
 
         virtual bool hit(
-            const Ray& r, double t_min, double t_max, hit_record& rec) const override;
+            const Ray& r, double t_min, double t_max, HitRecord& rec) const override;
 
     public:
         Point center;
@@ -20,7 +20,7 @@ class sphere : public hittable {
 };
 
 
-bool sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) const {
+bool sphere::hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const {
     vec3 oc = r.origin() - center;
     auto a = r.direction().length_squared();
     auto half_b = dot(oc, r.direction());
