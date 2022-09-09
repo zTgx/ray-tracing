@@ -6,16 +6,16 @@
 struct hit_record;
 class material {
     public:
-        virtual bool scatter(const Ray& r_in, const hit_record& rec, color& attenuation, Ray& scattered) const = 0;
+        virtual bool scatter(const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered) const = 0;
 };
 
 // Lambertian反射(也叫理想散射) 
 class lambertian : public material {
     public:
-        lambertian(const color& a) : albedo(a) {}
+        lambertian(const Color& a) : albedo(a) {}
 
         virtual bool scatter(
-            const Ray& r_in, const hit_record& rec, color& attenuation, Ray& scattered
+            const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
         ) const override {
             auto scatter_direction = rec.normal + random_unit_vector();
 
@@ -29,16 +29,16 @@ class lambertian : public material {
         }
 
     public:
-        color albedo;
+        Color albedo;
 };
 
 // 金属反射
 class metal : public material {
     public:
-        metal(const color& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
+        metal(const Color& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
 
         virtual bool scatter(
-            const Ray& r_in, const hit_record& rec, color& attenuation, Ray& scattered
+            const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
         ) const override {
             vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
             scattered = Ray(rec.p, reflected + fuzz*random_in_unit_sphere());
@@ -47,7 +47,7 @@ class metal : public material {
         }
 
     public:
-        color albedo;
+        Color albedo;
         double fuzz;
 };
 
@@ -57,9 +57,9 @@ class dielectric : public material {
         dielectric(double index_of_refraction) : ir(index_of_refraction) {}
 
         virtual bool scatter(
-            const Ray& r_in, const hit_record& rec, color& attenuation, Ray& scattered
+            const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
         ) const override {
-            attenuation = color(1.0, 1.0, 1.0);
+            attenuation = Color(1.0, 1.0, 1.0);
             double refraction_ratio = rec.front_face ? (1.0/ir) : ir;
 
             vec3 unit_direction = unit_vector(r_in.direction());

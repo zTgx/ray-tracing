@@ -4,11 +4,11 @@
 
 class Camera {
     public:
-        Camera() : Camera(point3(0,0,-1), point3(0,0,0), vec3(0,1,0), 40, 1, 0, 10) {}
+        Camera() : Camera(Point(0,0,-1), Point(0,0,0), vec3(0,1,0), 40, 1, 0, 10) {}
 
         Camera(
-            point3 lookfrom,
-            point3 lookat,
+            Point lookfrom,
+            Point lookat,
             vec3   vup,
             double vfov, // vertical field-of-view in degrees
             double aspect_ratio,
@@ -47,8 +47,8 @@ class Camera {
         }
 
     private:
-        point3 origin;
-        point3 lower_left_corner;
+        Point origin;
+        Point lower_left_corner;
         vec3 horizontal;
         vec3 vertical;
         vec3 u, v, w;

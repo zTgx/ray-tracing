@@ -21,6 +21,7 @@ class vec3 {
             e[0] += v.e[0];
             e[1] += v.e[1];
             e[2] += v.e[2];
+
             return *this;
         }
 
@@ -28,6 +29,7 @@ class vec3 {
             e[0] *= t;
             e[1] *= t;
             e[2] *= t;
+
             return *this;
         }
 
@@ -35,10 +37,12 @@ class vec3 {
             return *this *= 1/t;
         }
 
+        // 向量的长度=√(x²+y²)。
         double length() const {
             return std::sqrt(length_squared());
         }
 
+        // 返回向量长度的平方。适用于比较两向量的长度，避免了计算平方根。
         double length_squared() const {
             return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
         }
@@ -61,14 +65,7 @@ class vec3 {
         double e[3];
 };
 
-
-// Type aliases for vec3
-using point3 = vec3;   // 3D point
-using color = vec3;    // RGB color
-
-
 // vec3 Utility Functions
-
 inline std::ostream& operator<<(std::ostream &out, const vec3 &v) {
     return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
 }
@@ -97,12 +94,17 @@ inline vec3 operator/(vec3 v, double t) {
     return (1/t) * v;
 }
 
+// https://www.symbolab.com/solver/vector-dot-product-calculator/%5Cbegin%7Bpmatrix%7D1%262%263%5Cend%7Bpmatrix%7D%5Ccdot%5Cbegin%7Bpmatrix%7D1%265%267%5Cend%7Bpmatrix%7D?or=ex
+// (1, 2, 3) . (1, 5, 7) = 
+// 1 * 1 + 2 * 5 + 3 * 7 = 32
 inline double dot(const vec3 &u, const vec3 &v) {
     return u.e[0] * v.e[0]
          + u.e[1] * v.e[1]
          + u.e[2] * v.e[2];
 }
 
+// (u1, u2, u3) x (v1, v2, v3) = 
+// (u2v3 - u3v2, u1v3 - u3v1, u1v2 - u2v1)
 inline vec3 cross(const vec3 &u, const vec3 &v) {
     return vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
                 u.e[2] * v.e[0] - u.e[0] * v.e[2],
@@ -151,3 +153,7 @@ inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
     vec3 r_out_parallel = -std::sqrt(std::fabs(1.0 - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
 }
+
+// Type aliases for vec3
+using Point = vec3;   // 3D point
+using Color = vec3;    // RGB Color
