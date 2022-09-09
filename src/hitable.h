@@ -1,6 +1,7 @@
 #pragma once
 
-#include "utils.h"
+#include "vec3.h"
+#include "ray.h"
 
 class material;
 struct HitRecord {

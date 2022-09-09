@@ -2,6 +2,7 @@
 
 #include "utils.h"
 #include "hitable.h"
+#include "ray.h"
 
 class sphere : public Hitable {
     public:
