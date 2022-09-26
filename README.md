@@ -1,7 +1,8 @@
 # ray-tracing
 
 ### Features
-* cmake
+* C++20
+* CMake
 * plain PPM Format
 * vec3
 * dot / cross product
