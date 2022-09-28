@@ -10,6 +10,7 @@ class material {
     public:
         // scatter -> 分散
         // attenuation -> 衰减
+        // To reduce the intensity of light over the distance a light ray travels is generally called attenuation.
         virtual bool scatter(const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered) const = 0;
 };
 

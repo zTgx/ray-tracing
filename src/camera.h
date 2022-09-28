@@ -13,6 +13,12 @@ struct CameraProps
     float focus_dist{10};
 };
 
+// Right handed coordinate system
+// X-axis -> Right
+// Y-axis -> Up
+// Z-axis -> Into the screen is the negative z-axis
+// keep the rays coming from the origin and heading to the z=-1 plane.
+
 class Camera {
     public:
         Camera(
@@ -33,19 +39,28 @@ class Camera {
              * ◺
              * 
              * */
+            // h / ||z|| = tan(theta/2)
+            // set ||z|| = 1; (z = -1)
+            // h = tan(theta/2)
             auto h = tan(theta/2);
 
             // view port screen
             auto viewport_height = 2.0 * h;
             auto viewport_width = aspect_ratio * viewport_height;
 
-
+            // 单位向量 Look
             w = unit_vector(FROM - AT);
+
+            // to Right
             u = unit_vector(cross(vup, w));
+
+            // Up
             v = cross(w, u);
 
             origin = FROM;
+
             horizontal = focus_dist * viewport_width * u;
+            
             vertical = focus_dist * viewport_height * v;
             lower_left_corner = origin - horizontal/2 - vertical/2 - focus_dist*w;
 

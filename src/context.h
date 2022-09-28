@@ -11,11 +11,11 @@ class Context
         Context(const Props& p) noexcept 
         {
             // setup camera
-            Point lookfrom(13,2,3);
-            Point lookat(0,0,0);
-            Point vup(0,1,0);
+            Point lookfrom(13,2,3); // camera 的位置
+            Point lookat(0,0,0); 
+            Point vup(0,1,0); // view up , 相机向上的向量 
             float dist_to_focus = 10.0;
-            float aperture = 0.1;
+            float aperture = 0.1; // 光圈
 
             m_camera = new Camera(lookfrom, lookat, vup, 40, p.ratio, aperture, dist_to_focus);
             
