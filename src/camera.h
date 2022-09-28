@@ -4,9 +4,9 @@
 
 struct CameraProps
 {
-    Point lookfrom{0, 0, -1};
-    Point lookat{0, 0, 0};
-    vec3  vup{0, 1, 0};
+    Point FROM{0, 0, -1};
+    Point AT{0, 0, 0};
+    Point vup{0, 1, 0};
     float vfov{40}; // vertical field-of-view in degrees
     float aspect_ratio{1};
     float aperture{0};
@@ -16,24 +16,35 @@ struct CameraProps
 class Camera {
     public:
         Camera(
-            Point lookfrom,
-            Point lookat,
-            vec3  vup,
+            Point FROM,
+            Point AT,
+            Point vup,
             float vfov, // vertical field-of-view in degrees
             float aspect_ratio,
             float aperture,
             float focus_dist
         ) {
+            // to radians
             auto theta = degrees_to_radians(vfov);
+
+            // tan(theta/2) = t / |n|;
+            /***
+             *  
+             * ◺
+             * 
+             * */
             auto h = tan(theta/2);
+
+            // view port screen
             auto viewport_height = 2.0 * h;
             auto viewport_width = aspect_ratio * viewport_height;
 
-            w = unit_vector(lookfrom - lookat);
+
+            w = unit_vector(FROM - AT);
             u = unit_vector(cross(vup, w));
             v = cross(w, u);
 
-            origin = lookfrom;
+            origin = FROM;
             horizontal = focus_dist * viewport_width * u;
             vertical = focus_dist * viewport_height * v;
             lower_left_corner = origin - horizontal/2 - vertical/2 - focus_dist*w;
@@ -41,13 +52,15 @@ class Camera {
             lens_radius = aperture / 2;
         }
 
-        Ray GetRay(float s, float t) const {
-            vec3 rd = lens_radius * random_in_unit_disk();
-            vec3 offset = u * rd.x() + v * rd.y();
+        Ray GetRay(float s, float t) const 
+        {
+            Point rd = lens_radius * random_in_unit_disk();
+            Point offset = u * rd.x() + v * rd.y();
+            
             return Ray(origin + offset, lower_left_corner + s*horizontal + t*vertical - origin - offset);
         }
 
-        void Update(Point from, Point at, vec3 vup, const float vfov, const float ratio, const float aperture, const float distToFocus)
+        void Update(Point from, Point at, Point vup, const float vfov, const float ratio, const float aperture, const float distToFocus)
         {
             auto theta = degrees_to_radians(vfov);
             auto h = tan(theta/2);

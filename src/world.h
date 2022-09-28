@@ -22,14 +22,14 @@ class World : public Hitable  {
         void Add(std::shared_ptr<Hitable> object) { objects.emplace_back(object); }
 
     public:
-        virtual bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override;
+        virtual bool hit(const Ray& r, double t_min, double t_max, HitResult& rec) const override;
 
     private:
         std::vector<std::shared_ptr<Hitable>> objects;
 };
 
-bool World::hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const {
-    HitRecord temp_rec;
+bool World::hit(const Ray& r, double t_min, double t_max, HitResult& rec) const {
+    HitResult temp_rec;
     auto hit_anything = false;
     auto closest_so_far = t_max;
 

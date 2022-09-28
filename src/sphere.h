@@ -10,7 +10,7 @@ class sphere : public Hitable {
         sphere(Point center, double radius, std::shared_ptr<material> m)
             : center(center), radius(radius), mat_ptr(m) {};
 
-        virtual bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override
+        virtual bool hit(const Ray& r, double t_min, double t_max, HitResult& rec) const override
         {
             vec3 oc = r.GetOrigin() - center;
             auto a = r.GetDirection().length_squared();

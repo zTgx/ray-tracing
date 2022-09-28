@@ -4,7 +4,7 @@
 #include "ray.h"
 
 class material;
-struct HitRecord {
+struct HitResult {
     Point p;
     vec3 normal;
     std::shared_ptr<material> mat_ptr;
@@ -19,5 +19,5 @@ struct HitRecord {
 
 class Hitable {
     public:
-        virtual bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const = 0;
+        virtual bool hit(const Ray& r, double t_min, double t_max, HitResult& rec) const = 0;
 };

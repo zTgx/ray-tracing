@@ -5,7 +5,7 @@
 #include "material.h"
 
 Color RayColor(const Ray& r, const Hitable* obj, int depth) {
-    HitRecord rec;
+    HitResult rec;
 
     // If we've exceeded the Ray bounce limit, no more light is gathered.
     if (depth <= 0)
