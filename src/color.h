@@ -17,12 +17,12 @@ Color RayColor(const Ray& r, const Hitable* obj, int depth) {
         return Color(0,0,0);
 
     // 碰撞
-    if (obj->hit(r, 0.001, INFINITY, Result)) {
+    if (obj->OnHit(r, 0.001, INFINITY, Result)) {
         Ray ray;
         Color attenuation; 
 
         // 递归计算反射
-        if (Result.mat_ptr->scatter(r, Result, attenuation, ray))
+        if (Result.mat_ptr->Scatter(r, Result, attenuation, ray))
             return attenuation * RayColor(ray, obj, depth-1);
 
         return Color(0,0,0);

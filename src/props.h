@@ -12,6 +12,5 @@ struct Props
 
     Props(const int width = WIDTH(), const int height = HEIGHT(), const float ratio = RATIO()) 
     : width(width), height(height), ratio(ratio)
-    {
-    }
+    {}
 };

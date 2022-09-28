@@ -18,7 +18,7 @@ class PPM
             m_height    = height;  
             m_ratio     = ratio;
 
-            m_ofs.open ("ppm.ppm"); 
+            m_ofs.open("a.ppm"); 
             DrawHeader(width, height);
         }
 

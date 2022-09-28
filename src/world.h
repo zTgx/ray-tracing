@@ -22,19 +22,19 @@ class World : public Hitable  {
         void Add(std::shared_ptr<Hitable> object) { objects.emplace_back(object); }
 
     public:
-        virtual bool hit(const Ray& r, double t_min, double t_max, HitResult& rec) const override;
+        virtual bool OnHit(const Ray& r, double t_min, double t_max, HitResult& rec) const override;
 
     private:
         std::vector<std::shared_ptr<Hitable>> objects;
 };
 
-bool World::hit(const Ray& r, double t_min, double t_max, HitResult& rec) const {
+bool World::OnHit(const Ray& r, double t_min, double t_max, HitResult& rec) const {
     HitResult temp_rec;
     auto hit_anything = false;
     auto closest_so_far = t_max;
 
     for (const auto& object : objects) {
-        if (object->hit(r, t_min, closest_so_far, temp_rec)) {
+        if (object->OnHit(r, t_min, closest_so_far, temp_rec)) {
             hit_anything = true;
             closest_so_far = temp_rec.t;
             rec = temp_rec;

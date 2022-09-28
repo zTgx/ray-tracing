@@ -9,7 +9,7 @@
 // N = P - Center; points out
 
 // (P−C)⋅(P−C)=r*r
-//  If it does hit the sphere, there is some t for which P(t) satisfies the sphere equation. So we are looking for any t where this is true:
+//  If it does OnHit the sphere, there is some t for which P(t) satisfies the sphere equation. So we are looking for any t where this is true:
 // So we are looking for any t where this is true:
 // (P(t)−C)⋅(P(t)−C)=r*r
 // 求t来判断是否相交
@@ -23,9 +23,9 @@ class sphere : public Hitable {
             : center(center), radius(radius), mat_ptr(m) {};
 
         // We want to
-        // know if our ray p(t) = A + t*B ever hits the sphere anywhere. If it does hit the sphere,
+        // know if our ray p(t) = A + t*B ever hits the sphere anywhere. If it does OnHit the sphere,
         // there is some t for which p(t) satisfies the sphere equation.
-        virtual bool hit(const Ray& r, double t_min, double t_max, HitResult& rec) const override
+        virtual bool OnHit(const Ray& r, double t_min, double t_max, HitResult& rec) const override
         {
             // ray 原点 到 球体原点的向量
             vec3 oc = r.GetOrigin() - center;
@@ -81,9 +81,9 @@ class sphere : public Hitable {
             }
 
             rec.t = root;
-            rec.p = r.At(rec.t);
+            rec.p = r.LookAt(rec.t);
             vec3 outward_normal = (rec.p - center) / radius;
-            rec.set_face_normal(r, outward_normal);
+            rec.SetFaceNormal(r, outward_normal);
             rec.mat_ptr = mat_ptr;
 
             return true;

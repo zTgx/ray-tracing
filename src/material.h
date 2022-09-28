@@ -8,10 +8,10 @@
 struct HitResult;
 class material {
     public:
-        // scatter -> 分散
+        // Scatter -> 分散
         // attenuation -> 衰减
         // To reduce the intensity of light over the distance a light ray travels is generally called attenuation.
-        virtual bool scatter(const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered) const = 0;
+        virtual bool Scatter(const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered) const = 0;
 };
 
 // Lambertian反射(也叫理想散射) 
@@ -19,11 +19,11 @@ class lambertian : public material {
     public:
         lambertian(const Color& a) : albedo(a) {}
 
-        virtual bool scatter(const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered) const override 
+        virtual bool Scatter(const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered) const override 
         {
             auto scatter_direction = rec.normal + random_unit_vector();
 
-            // Catch degenerate scatter direction
+            // Catch degenerate Scatter direction
             if (scatter_direction.near_zero())
                 scatter_direction = rec.normal;
 
@@ -42,7 +42,7 @@ class metal : public material {
     public:
         metal(const Color& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
 
-        virtual bool scatter(
+        virtual bool Scatter(
             const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered
         ) const override {
             vec3 reflected = reflect(unit_vector(r_in.GetDirection()), rec.normal);
@@ -61,7 +61,7 @@ class dielectric : public material {
     public:
         dielectric(double index_of_refraction) : ir(index_of_refraction) {}
 
-        virtual bool scatter(
+        virtual bool Scatter(
             const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered
         ) const override {
             attenuation = Color(1.0, 1.0, 1.0);

@@ -22,7 +22,7 @@ class Ray {
         // The direction is the current position + the direction vector we just defined.
         // looking at the target direction
         // Plug in a different t and p(t) moves the point along the ray.
-        Point At(float t)    const { return m_origin + t * m_direction; }
+        Point LookAt(float t)    const { return m_origin + t * m_direction; }
 
     private:
         Point m_origin;
