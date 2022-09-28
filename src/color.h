@@ -22,6 +22,7 @@ Color RayColor(const Ray& r, const Hitable* obj, int depth) {
         Color attenuation; 
 
         // 递归计算反射
+        // 
         if (Result.mat_ptr->Scatter(r, Result, attenuation, ray))
             return attenuation * RayColor(ray, obj, depth-1);
 

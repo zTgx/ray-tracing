@@ -14,7 +14,7 @@ class material {
         virtual bool Scatter(const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered) const = 0;
 };
 
-// Lambertian反射(也叫理想散射) 
+// Lambertian反射(也叫理想散射) 漫反射
 class lambertian : public material {
     public:
         lambertian(const Color& a) : albedo(a) {}
@@ -38,6 +38,7 @@ class lambertian : public material {
 };
 
 // 金属反射
+// Mirrored Light Reflection
 class metal : public material {
     public:
         metal(const Color& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
@@ -45,9 +46,13 @@ class metal : public material {
         virtual bool Scatter(
             const Ray& r_in, const HitResult& rec, Color& attenuation, Ray& scattered
         ) const override {
+            // b = v . n 
+            // reflected = v - 2*dot(v,n)*n;
             vec3 reflected = reflect(unit_vector(r_in.GetDirection()), rec.normal);
             scattered = Ray(rec.p, reflected + fuzz*random_in_unit_sphere());
             attenuation = albedo;
+
+            // 
             return (dot(scattered.GetDirection(), rec.normal) > 0);
         }
 
@@ -57,6 +62,7 @@ class metal : public material {
 };
 
 // 全反射
+// 
 class dielectric : public material {
     public:
         dielectric(double index_of_refraction) : ir(index_of_refraction) {}
@@ -77,6 +83,7 @@ class dielectric : public material {
             if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_double())
                 direction = reflect(unit_direction, rec.normal);
             else
+                // 折射
                 direction = refract(unit_direction, rec.normal, refraction_ratio);
 
             scattered = Ray(rec.p, direction);
